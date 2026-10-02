@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preferred-apps>
+    <!-- Direct link Apple Inc. USB Vendor ID 1452 (Hex: 0x05AC) to DiPlay MainActivity -->
+    <usb-device vendor-id="1452" package="com.shihab.diplay" class="com.shilapi.xcertplay.MainActivity" />
+    <preference package="com.shihab.diplay" class="com.shilapi.xcertplay.MainActivity">
+        <usb-device vendor-id="1452" />
+    </preference>
+</preferred-apps>
