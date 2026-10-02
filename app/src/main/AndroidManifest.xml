@@ -2,14 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Network & Wi-Fi Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" android:usesPermissionFlags="neverForLocation" />
+
+    <!-- System & Settings Permissions -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Bluetooth Permissions (Wireless CarPlay Handshake) -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+    <!-- Audio & Voice Permissions (Siri & Mic Integration) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- Privileged System Permissions -->
     <uses-permission android:name="android.permission.MANAGE_USB" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.CONNECTIVITY_INTERNAL" tools:ignore="ProtectedPermissions" />
+
+    <!-- Hardware Features -->
+    <uses-feature android:name="android.hardware.usb.host" android:required="true" />
+    <uses-feature android:name="android.hardware.wifi.direct" android:required="true" />
 
     <application
         android:allowBackup="false"
@@ -22,6 +44,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Xcertplay">
 
+        <!-- USB and Bluetooth Broadcast Receiver -->
         <receiver
             android:name=".USBReceiver"
             android:exported="true">
@@ -32,14 +55,23 @@
             </intent-filter>
         </receiver>
 
+        <!-- Boot Receiver for Auto-start on Headunit Startup -->
         <receiver
             android:name="com.shilapi.xcertplay.BootReceiver"
             android:enabled="true"
             tools:replace="android:enabled" />
 
-        <activity 
+        <!-- Main Display Activity -->
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden|density">
+            
+            <!-- App Icon ကို Home Screen မီးခွက်ပေါ်တွင် ဖော်ပြပေးရန် -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <!-- USB Device တပ်ဆင်လိုက်သည်နှင့် အလိုအလျောက် ပွင့်ရန် -->
             <intent-filter>
@@ -51,8 +83,10 @@
                 android:resource="@xml/device_filter" />
         </activity>
 
+        <!-- Remove unnecessary Android Auto CarAppService nodes -->
         <service android:name="com.shilapi.xcertplay.shared.MyCarAppService" tools:node="remove" />
         <meta-data android:name="androidx.car.app.minCarApiLevel" tools:node="remove" />
+
     </application>
 
 </manifest>
