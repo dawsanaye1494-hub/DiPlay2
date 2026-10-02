@@ -8,7 +8,7 @@ val localAuthenticationAssets = providers.environmentVariable("DIPLAY_AUTH_ASSET
     .orNull?.let { file(it).canonicalFile }
 
 android {
-    namespace = "com.shilapi.xcertplay"
+    namespace = "com.shihab.diplay"
     compileSdk = 36
 
     defaultConfig {
@@ -17,6 +17,8 @@ android {
         targetSdk = 36
         versionCode = 26
         versionName = "0.2.7"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     localAuthenticationAssets?.let { sourceSets.getByName("main").assets.srcDir(it) }
@@ -43,8 +45,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
